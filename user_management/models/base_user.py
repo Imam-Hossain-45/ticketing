@@ -1,12 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import (
-    AbstractBaseUser, BaseUserManager, PermissionsMixin, Group
+    AbstractBaseUser, BaseUserManager, PermissionsMixin
 )
-from helpers.models import Model
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, name=None, password=None, is_staff=False, is_superuser=False, is_active=True):
+    def create_user(self, email, password=None, is_staff=False, is_superuser=False, is_active=True):
         if not email:
             raise ValueError('Users must have a email address')
         if not password:
@@ -14,7 +13,6 @@ class UserManager(BaseUserManager):
 
         user_obj = self.model(
             email=self.normalize_email(email),
-            name=name,
             is_staff=is_staff,
             is_superuser=is_superuser,
         )
@@ -24,19 +22,17 @@ class UserManager(BaseUserManager):
 
         return user_obj
 
-    def create_staffuser(self, email, name=None, password=None):
+    def create_staffuser(self, email, username=None, password=None):
         user = self.create_user(
             email,
-            name=name,
             password=password,
             is_staff=True
         )
         return user
 
-    def create_superuser(self, email, name=None, password=None):
+    def create_superuser(self, email, username=None, password=None):
         user = self.create_user(
             email,
-            name=name,
             password=password,
             is_staff=True,
             is_superuser=True,
@@ -46,17 +42,26 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    name = models.CharField(max_length=255, blank=True, null=True)
+    USER_TYPE_CHOICES = (
+        ('admin', 'Admin'),
+        ('visitor', 'Visitor'),
+    )
     email = models.EmailField(max_length=255, unique=True)
+    phone = models.CharField(max_length=20, unique=True)
     is_staff = models.BooleanField(default=False, blank=True)
     status = models.BooleanField(default=True, blank=True)
     created_at = models.DateTimeField(blank=True, auto_now_add=True)
     updated_at = models.DateTimeField(blank=True, auto_now=True)
-
+    user_type = models.CharField(
+        max_length=255,
+        choices=USER_TYPE_CHOICES,
+        default='admin'
+    )
     USERNAME_FIELD = 'email'
 
     objects = UserManager()
 
     def __str__(self):
-        return "%s" % self.name
-
+        if self.email:
+            return "%s" % self.email
+        return "%s" % self.phone
