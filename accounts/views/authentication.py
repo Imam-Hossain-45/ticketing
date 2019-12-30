@@ -4,8 +4,8 @@ from django.contrib.auth import logout as auth_logout
 from accounts.serializers import UserLogInSerializer
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
-from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
-from accounts.helpers import my_login
+from rest_framework.status import HTTP_200_OK
+from accounts.helpers import get_user_json
 
 
 class UserLogInView(APIView):
@@ -19,16 +19,18 @@ class UserLogInView(APIView):
     serializer_class = UserLogInSerializer
 
     def post(self, request, *args, **kwargs):
-        data = request.data
+        data = request.data.copy()
         serializer = UserLogInSerializer(data=data)
 
-        if serializer.is_valid(raise_exception=True):
-            username = request.data['username']
-            password = request.data['password']
-            json_data, status = my_login(self=self, username=username, password=password, data=data)
-            return Response(json_data, status)
+        if serializer.is_valid():
+            username = serializer.validated_data['username']
+            password = serializer.validated_data['password']
+            json_data, status = get_user_json(self=self, valid=True, username=username, password=password)
 
-        return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+        else:
+            json_data, status = get_user_json(self=self, valid=False, error=serializer.errors)
+
+        return Response(json_data, status)
 
 
 class LogOutView(LoginRequiredMixin, APIView):

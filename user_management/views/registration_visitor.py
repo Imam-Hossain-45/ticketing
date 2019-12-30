@@ -2,10 +2,10 @@ from rest_framework.views import APIView
 from user_management.serializers import VisitorRegistrationSerializer
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
-from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
-from user_management.models import User
+from user_management.models import User, VisitorProfile
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
+from accounts.helpers import get_user_json
 
 
 class VisitorRegistrationView(APIView):
@@ -30,33 +30,34 @@ class VisitorRegistrationView(APIView):
     def post(self, request, *args, **kwargs):
         data = request.data.copy()
         serializer = VisitorRegistrationSerializer(data=data)
-        print(request.data)
 
-        if serializer.is_valid(raise_exception=True):
+        if serializer.is_valid():
             email = serializer.validated_data['email']
             phone = serializer.validated_data['phone']
             password = serializer.validated_data['password']
-            visitor_profile = serializer.validated_data['visitor_profile']
-            print(visitor_profile.get('date_of_birth'), type(visitor_profile.get('date_of_birth')))
-            # user = serializer.save(commit=False)
-            # print(user)
-            user = User(email=email, phone=phone)
-            # user.save(commit=False)
-            print(user, type(user))
-            # print(serializer.validate_password(password))
-            #
+
+            user = User(email=email, phone=phone, user_type='visitor')   # equivalent to user.save(commit=False)
+
             try:
                 validate_password(password, user)
             except ValidationError as e:
-                # user.delete()
-                data['error'] = e
-                # error = {'error': e}
-                return Response(data, status=HTTP_400_BAD_REQUEST)
+                json_data, status = get_user_json(self=self, valid=False, error=e)
+                return Response(json_data, status)
             user.set_password(password)
             user.save()
-        #     username = request.data['username']
-        #     password = request.data['password']
-        #     json_data, status = my_login(self=self, username=username, password=password, data=data)
-        #     return Response(json_data, status)
 
-        return Response(data, status=HTTP_400_BAD_REQUEST)
+            visitor_profile = serializer.validated_data['visitor_profile']
+            first_name = visitor_profile.get('first_name')
+            last_name = visitor_profile.get('last_name')
+            gender = visitor_profile.get('gender')
+            date_of_birth = visitor_profile.get('date_of_birth')
+
+            VisitorProfile.objects.create(
+                user=user, first_name=first_name, last_name=last_name, gender=gender, date_of_birth=date_of_birth
+            )
+            json_data, status = get_user_json(self=self, valid=True, username=phone, password=password)
+
+        else:
+            json_data, status = get_user_json(self=self, valid=False, error=serializer.errors)
+
+        return Response(json_data, status)

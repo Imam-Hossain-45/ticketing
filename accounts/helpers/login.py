@@ -1,4 +1,4 @@
-from rest_framework.status import HTTP_200_OK, HTTP_404_NOT_FOUND
+from rest_framework.status import HTTP_200_OK, HTTP_404_NOT_FOUND, HTTP_400_BAD_REQUEST
 from user_management.models import User, VisitorProfile
 from django.core import serializers
 from django.contrib.auth import login, authenticate
@@ -25,26 +25,55 @@ def my_authenticate(username=None, password=None):
     return None
 
 
-def my_login(self, username, password, data):
-    user = my_authenticate(username=username, password=password)
-    if user and user.is_active:
-        login(self.request, user)
-        fields = ['email', 'phone', 'user_type', 'is_active']
-        user_data = json.loads(
-            serializers.serialize('json', [user], fields=fields)
-        )[0]
+def get_user_json(self=None, valid=None, username=None, password=None, error=None):
+    fields = ['email', 'phone', 'user_type', 'status']
+    profile_fields = [field.name for field in VisitorProfile._meta.fields]
 
-        json_data = {f: user_data['fields'].get(f) for f in fields}
-        # json_data = user_data
-        if VisitorProfile.objects.filter(user=user).exists():
-            json_data['user_profile_data_exist'] = True
-            profile = VisitorProfile.objects.get(user=user)
-            user_profile_data = json.loads(serializers.serialize('json', [profile, ]))[0]
-            user_profile_data_dict = {f: user_profile_data['fields'].get(f) for f in vars(profile) if not f.startswith('_') and 'id' not in f}
-            print(user_profile_data_dict)
-            json_data.update(user_profile_data_dict)
+    if valid:
+        user = my_authenticate(username=username, password=password)
+        if user and user.is_active:
+            status = HTTP_200_OK
+            login(self.request, user)
+
+            json_data = {'valid_credential': 'valid'}
+            json_data.update({'response': 'successfully signed in'})
+            json_data.update(my_json_formatter(fields=fields, data_obj=user))
+
+            if VisitorProfile.objects.filter(user=user).exists():
+                json_data.update({'user_profile_data_exist': True})
+                profile = VisitorProfile.objects.get(user=user)
+                json_data.update(my_json_formatter(fields=profile_fields, data_obj=profile))
+            else:
+                json_data.update({'user_profile_data_exist': False})
+                json_data.update(my_json_formatter(fields=profile_fields))
+
         else:
-            json_data['user_profile_data_exist'] = False
-        return json_data, HTTP_200_OK
-    return data, HTTP_404_NOT_FOUND
+            status = HTTP_404_NOT_FOUND
+            json_data = {'valid_credential': 'invalid'}
+            json_data.update({'response': 'username or password invalid'})
+            json_data.update(my_json_formatter(fields=fields))
+            json_data.update({'user_profile_data_exist': False})
+            json_data.update(my_json_formatter(fields=profile_fields))
+    else:
+        status = HTTP_400_BAD_REQUEST
+        json_data = {'valid_credential': 'invalid'}
+        json_data.update({'response': error})
+        json_data.update(my_json_formatter(fields=fields))
+        json_data.update({'user_profile_data_exist': False})
+        json_data.update(my_json_formatter(fields=profile_fields))
 
+    return json_data, status
+
+
+def my_json_formatter(fields=None, data_obj=None):
+    if fields:
+        if data_obj:
+            data = json.loads(
+                serializers.serialize('json', [data_obj], fields=fields)
+            )[0]
+            formatted_data = {field: data['fields'].get(field) for field in fields if not field.startswith('_')}
+        else:
+            formatted_data = {field: None for field in fields}
+    else:
+        formatted_data = None
+    return formatted_data
