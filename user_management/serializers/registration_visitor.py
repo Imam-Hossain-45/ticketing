@@ -17,13 +17,13 @@ class VisitorRegistrationSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('email', 'phone', 'password', 'password_confirmation', 'visitor_profile')
-
-    def validate_password(self, value):
-        try:
-            validate_password(value)
-        except ValidationError as exc:
-            raise serializers.ValidationError(str(exc))
-        return value
+    #
+    # def validate_password(self, value):
+    #     try:
+    #         validate_password(value)
+    #     except ValidationError as exc:
+    #         raise serializers.ValidationError(str(exc))
+    #     return value
 
     def validate(self, data):
         password = data['password']

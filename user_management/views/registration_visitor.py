@@ -28,24 +28,32 @@ class VisitorRegistrationView(APIView):
     #     })
 
     def post(self, request, *args, **kwargs):
-        data = request.data
+        data = request.data.copy()
         serializer = VisitorRegistrationSerializer(data=data)
         print(request.data)
 
         if serializer.is_valid(raise_exception=True):
-            email = request.data['email']
-            phone = request.data['phone']
-            password = request.data['password']
+            email = serializer.validated_data['email']
+            phone = serializer.validated_data['phone']
+            password = serializer.validated_data['password']
+            visitor_profile = serializer.validated_data['visitor_profile']
+            print(visitor_profile.get('date_of_birth'), type(visitor_profile.get('date_of_birth')))
             # user = serializer.save(commit=False)
-            # user = User.objects.create(email=email, phone=phone)
-            print(serializer.validate_password(password))
+            # print(user)
+            user = User(email=email, phone=phone)
+            # user.save(commit=False)
+            print(user, type(user))
+            # print(serializer.validate_password(password))
             #
-            # try:
-            #     validate_password(password, user)
-            # except ValidationError as e:
-            #     user.delete()
-            #     data['error'] = e
-            #     return Response(data, status=HTTP_400_BAD_REQUEST)
+            try:
+                validate_password(password, user)
+            except ValidationError as e:
+                # user.delete()
+                data['error'] = e
+                # error = {'error': e}
+                return Response(data, status=HTTP_400_BAD_REQUEST)
+            user.set_password(password)
+            user.save()
         #     username = request.data['username']
         #     password = request.data['password']
         #     json_data, status = my_login(self=self, username=username, password=password, data=data)
