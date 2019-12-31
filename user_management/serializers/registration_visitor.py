@@ -11,6 +11,7 @@ class VisitorProfileSerializer(serializers.ModelSerializer):
 
 
 class VisitorRegistrationSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(style={'input_type': 'password'}, label='Password')
     password_confirmation = serializers.CharField(style={'input_type': 'password'}, label='Confirm Password')
     visitor_profile = VisitorProfileSerializer()
 

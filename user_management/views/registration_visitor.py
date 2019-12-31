@@ -12,7 +12,7 @@ class VisitorRegistrationView(APIView):
     """
     Register a visitor and login the user
 
-    Url: /user/sign-up/
+    Url: /user/visitor/create/
     """
     permission_classes = [AllowAny]
     serializer_class = VisitorRegistrationSerializer
