@@ -21,7 +21,8 @@ class UserLogInView(APIView):
 
     def get(self, request, format=None, **kwargs):
         csrf_token = get_token(request)
-        return Response({'csrfmiddlewaretoken': csrf_token})
+        data = {'csrfmiddlewaretoken': csrf_token}
+        return Response(data, HTTP_200_OK)
 
     def post(self, request, *args, **kwargs):
         data = request.data.copy()
