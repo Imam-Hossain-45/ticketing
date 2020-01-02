@@ -15,6 +15,8 @@ class VisitorRegistrationView(APIView):
 
     Url: /user/visitor/create/
     """
+
+    authentication_classes = []
     permission_classes = [AllowAny]
     serializer_class = VisitorRegistrationSerializer
 
@@ -30,9 +32,6 @@ class VisitorRegistrationView(APIView):
 
     def post(self, request, *args, **kwargs):
         data = request.data.copy()
-        data.pop('csrfmiddlewaretoken', None)   # delete csrf token if exist
-        data['csrfmiddlewaretoken'] = get_token(request)
-
         serializer = VisitorRegistrationSerializer(data=data)
 
         if serializer.is_valid():
