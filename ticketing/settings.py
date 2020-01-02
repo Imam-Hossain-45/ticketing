@@ -119,7 +119,12 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # changes the built-in user model
 AUTH_USER_MODEL = 'user_management.User'
-
+#
+# REST_FRAMEWORK = {
+#     'DEFAULT_RENDERER_CLASSES': (
+#         'rest_framework.renderers.JSONRenderer',
+#     )
+# }
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
