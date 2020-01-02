@@ -20,8 +20,9 @@ class UserLogInView(APIView):
     serializer_class = UserLogInSerializer
 
     def get(self, request, format=None, **kwargs):
-        csrf_token = get_token(request)
-        data = {'csrfmiddlewaretoken': csrf_token}
+        # csrf_token = get_token(request)
+        # data = {'csrfmiddlewaretoken': 1}
+        data = {'h': 1}
         return Response(data, HTTP_200_OK)
 
     def post(self, request, *args, **kwargs):
