@@ -19,10 +19,14 @@ class UserLogInView(APIView):
     permission_classes = [AllowAny]
     serializer_class = UserLogInSerializer
 
+    def get(self, request):
+        csrf_token = get_token(request)
+        return Response({'csrfmiddlewaretoken': csrf_token})
+
     def post(self, request, *args, **kwargs):
         data = request.data.copy()
-        data.pop('csrfmiddlewaretoken', None)  # delete csrf token if exist
-        data['csrfmiddlewaretoken'] = get_token(request)
+        # data.pop('csrfmiddlewaretoken', None)  # delete csrf token if exist
+        # # data['csrfmiddlewaretoken'] = get_token(request)
 
         serializer = UserLogInSerializer(data=data)
 
