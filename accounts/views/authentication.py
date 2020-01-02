@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework.status import HTTP_200_OK
 from accounts.helpers import get_user_json
+from django.middleware.csrf import get_token
 
 
 class UserLogInView(APIView):
@@ -20,6 +21,9 @@ class UserLogInView(APIView):
 
     def post(self, request, *args, **kwargs):
         data = request.data.copy()
+        data.pop('csrfmiddlewaretoken', None)  # delete csrf token if exist
+        data['csrfmiddlewaretoken'] = get_token(request)
+
         serializer = UserLogInSerializer(data=data)
 
         if serializer.is_valid():

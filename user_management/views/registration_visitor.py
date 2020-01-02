@@ -6,6 +6,7 @@ from user_management.models import User, VisitorProfile
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from accounts.helpers import get_user_json
+from django.middleware.csrf import get_token
 
 
 class VisitorRegistrationView(APIView):
@@ -29,6 +30,9 @@ class VisitorRegistrationView(APIView):
 
     def post(self, request, *args, **kwargs):
         data = request.data.copy()
+        data.pop('csrfmiddlewaretoken', None)   # delete csrf token if exist
+        data['csrfmiddlewaretoken'] = get_token(request)
+
         serializer = VisitorRegistrationSerializer(data=data)
 
         if serializer.is_valid():
