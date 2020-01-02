@@ -19,7 +19,7 @@ class UserLogInView(APIView):
     permission_classes = [AllowAny]
     serializer_class = UserLogInSerializer
 
-    def get(self, request):
+    def get(self, request, format=None, **kwargs):
         csrf_token = get_token(request)
         return Response({'csrfmiddlewaretoken': csrf_token})
 
