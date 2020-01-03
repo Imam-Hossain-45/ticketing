@@ -119,7 +119,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # changes the built-in user model
 AUTH_USER_MODEL = 'user_management.User'
-#
+
+# # to disable web-front for the rest API
 # REST_FRAMEWORK = {
 #     'DEFAULT_RENDERER_CLASSES': (
 #         'rest_framework.renderers.JSONRenderer',
