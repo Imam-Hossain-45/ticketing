@@ -58,7 +58,9 @@ class VisitorRegistrationView(APIView):
             VisitorProfile.objects.create(
                 user=user, first_name=first_name, last_name=last_name, gender=gender, date_of_birth=date_of_birth
             )
-            json_data, status = get_user_json(self=self, valid=True, username=phone, password=password)
+            json_data, status = get_user_json(
+                self=self, valid=True, username=phone, password=password, success_message='Successfully Signed Up'
+            )
 
         else:
             json_data, status = get_user_json(self=self, valid=False, error=serializer.errors)

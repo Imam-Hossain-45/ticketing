@@ -27,7 +27,9 @@ class UserLogInView(APIView):
         if serializer.is_valid():
             username = serializer.validated_data['username']
             password = serializer.validated_data['password']
-            json_data, status = get_user_json(self=self, valid=True, username=username, password=password)
+            json_data, status = get_user_json(
+                self=self, valid=True, username=username, password=password, success_message='Successfully Signed in'
+            )
 
         else:
             json_data, status = get_user_json(self=self, valid=False, error=serializer.errors)

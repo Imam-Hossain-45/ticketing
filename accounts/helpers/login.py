@@ -25,7 +25,7 @@ def my_authenticate(username=None, password=None):
     return None
 
 
-def get_user_json(self=None, valid=None, username=None, password=None, error=None):
+def get_user_json(self=None, valid=None, username=None, password=None, error=None, success_message=None):
     fields = ['email', 'phone', 'user_type', 'status']
     profile_fields = [field.name for field in VisitorProfile._meta.fields]
 
@@ -36,7 +36,7 @@ def get_user_json(self=None, valid=None, username=None, password=None, error=Non
             login(self.request, user)
 
             json_data = {'valid_credential': 'valid'}
-            json_data.update({'response': 'successfully signed in'})
+            json_data.update({'response': success_message})
             json_data.update(my_json_formatter(fields=fields, data_obj=user))
 
             if VisitorProfile.objects.filter(user=user).exists():
