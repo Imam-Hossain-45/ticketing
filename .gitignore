@@ -4,5 +4,5 @@ __pycache__
 /venv
 /.idea
 /.vscode
-assets/uploads/**/**
+assets/uploads/**/**/*
 !assets/uploads/**/**/.gitkeep
