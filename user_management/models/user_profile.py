@@ -18,3 +18,4 @@ class VisitorProfile(Model):
         default='male'
     )
     date_of_birth = models.DateField(blank=True, null=True)
+    profile_picture = models.ImageField(upload_to='user_visitors/profile_pic/', blank=True, null=True)

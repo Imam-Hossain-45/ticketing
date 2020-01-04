@@ -26,7 +26,7 @@ STATIC_DIR = os.path.join(BASE_DIR, 'assets')
 STATICFILES_DIRS = [
     STATIC_DIR
 ]
-STATIC_ROOT = STATIC_DIR
+
 MEDIA_DIR = os.path.join(STATIC_DIR, 'uploads')
 MEDIA_ROOT = MEDIA_DIR
 
