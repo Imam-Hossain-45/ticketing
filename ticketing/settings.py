@@ -22,7 +22,13 @@ environ.Env.read_env()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+STATIC_DIR = os.path.join(BASE_DIR, 'assets')
+STATICFILES_DIRS = [
+    STATIC_DIR
+]
+STATIC_ROOT = STATIC_DIR
+MEDIA_DIR = os.path.join(STATIC_DIR, 'uploads')
+MEDIA_ROOT = MEDIA_DIR
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -140,11 +146,13 @@ USE_L10N = True
 
 USE_TZ = False
 
+DATE_FORMAT = "Y-m-d"
+TIME_FORMAT = ['%I:%M %p', "h:i A", ]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+MEDIA_URL = '/uploads/'
 
 LOGIN_URL = '/accounts/login/'
