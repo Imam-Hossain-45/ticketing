@@ -13,7 +13,7 @@ class UserLogInView(APIView):
     """
     Show a login form to log a user in.
 
-    Url: /user_visitors/login/
+    Url: /accounts/login/
     """
 
     authentication_classes = []
@@ -41,7 +41,7 @@ class LogOutView(LoginRequiredMixin, APIView):
     """
     Log a user out.
 
-    Url: /user_visitors/logout/
+    Url: /accounts/logout/
     """
 
     def post(self, request, *args, **kwargs):

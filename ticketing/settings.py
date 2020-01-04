@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'user_management',
-    'user_visitors',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -147,4 +147,4 @@ USE_TZ = False
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
-LOGIN_URL = '/user_visitors/login/'
+LOGIN_URL = '/accounts/login/'
