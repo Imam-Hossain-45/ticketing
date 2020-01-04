@@ -156,3 +156,5 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/uploads/'
 
 LOGIN_URL = '/accounts/login/'
+
+MEDIA_URL_HEADER = 'http://' + ALLOWED_HOSTS[1] + MEDIA_URL

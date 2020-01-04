@@ -54,9 +54,11 @@ class VisitorRegistrationView(APIView):
             last_name = visitor_profile.get('last_name')
             gender = visitor_profile.get('gender')
             date_of_birth = visitor_profile.get('date_of_birth')
+            profile_picture = visitor_profile.get('profile_picture')
 
             VisitorProfile.objects.create(
-                user=user, first_name=first_name, last_name=last_name, gender=gender, date_of_birth=date_of_birth
+                user=user, first_name=first_name, last_name=last_name, gender=gender, date_of_birth=date_of_birth,
+                profile_picture=profile_picture
             )
             json_data, status = get_user_json(
                 self=self, valid=True, username=phone, password=password, success_message='Successfully Signed Up'

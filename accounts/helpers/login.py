@@ -3,6 +3,7 @@ from user_management.models import User, VisitorProfile
 from django.core import serializers
 from django.contrib.auth import login, authenticate
 import json
+from django.conf import settings
 
 
 def my_authenticate(username=None, password=None):
@@ -43,6 +44,11 @@ def get_user_json(self=None, valid=None, username=None, password=None, error=Non
                 json_data.update({'user_profile_data_exist': True})
                 profile = VisitorProfile.objects.get(user=user)
                 json_data.update(my_json_formatter(fields=profile_fields, data_obj=profile))
+
+                if json_data['profile_picture'] == '':
+                    json_data['profile_picture'] = None
+                else:
+                    json_data['profile_picture'] = settings.MEDIA_URL_HEADER + json_data['profile_picture']
             else:
                 json_data.update({'user_profile_data_exist': False})
                 json_data.update(my_json_formatter(fields=profile_fields))
