@@ -44,7 +44,7 @@ class VisitorRegistrationView(APIView):
             try:
                 validate_password(password, user)
             except ValidationError as e:
-                json_data, status = get_user_json(self=self, valid=False, error=e)
+                json_data, status = get_user_json(self=self, valid=False, error={'password': e})
                 return Response(json_data, status)
             user.set_password(password)
             user.save()
@@ -66,5 +66,8 @@ class VisitorRegistrationView(APIView):
 
         else:
             json_data, status = get_user_json(self=self, valid=False, error=serializer.errors)
+            if 'non_field_errors' in json_data['response']:
+                json_data['response'].update({'password': json_data['response']['non_field_errors']})
+                del json_data['response']['non_field_errors']
 
         return Response(json_data, status)

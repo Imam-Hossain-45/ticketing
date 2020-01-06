@@ -56,17 +56,11 @@ def get_user_json(self=None, valid=None, username=None, password=None, error=Non
         else:
             status = HTTP_404_NOT_FOUND
             json_data = {'valid_credential': 'invalid'}
-            json_data.update({'response': 'username or password invalid'})
-            json_data.update(my_json_formatter(fields=fields))
-            json_data.update({'user_profile_data_exist': False})
-            json_data.update(my_json_formatter(fields=profile_fields))
+            json_data.update({'response': 'invalid username or password'})
     else:
         status = HTTP_400_BAD_REQUEST
         json_data = {'valid_credential': 'invalid'}
         json_data.update({'response': error})
-        json_data.update(my_json_formatter(fields=fields))
-        json_data.update({'user_profile_data_exist': False})
-        json_data.update(my_json_formatter(fields=profile_fields))
 
     return json_data, status
 
