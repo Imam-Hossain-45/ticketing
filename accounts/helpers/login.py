@@ -7,7 +7,7 @@ from django.conf import settings
 
 
 def get_user_json(self=None, valid=None, username=None, password=None, error=None, success_message=None):
-    fields = ['username', 'email', 'phone', 'user_type', 'status']
+    fields = ['username', 'email', 'phone', 'email_verified', 'phone_verified', 'user_type', 'status']
     profile_fields = [field.name for field in VisitorProfile._meta.fields]
 
     if valid:
