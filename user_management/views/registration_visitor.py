@@ -6,7 +6,6 @@ from user_management.models import User, VisitorProfile
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from accounts.helpers import get_user_json
-from django.middleware.csrf import get_token
 
 
 class VisitorRegistrationView(APIView):
@@ -35,11 +34,13 @@ class VisitorRegistrationView(APIView):
         serializer = VisitorRegistrationSerializer(data=data)
 
         if serializer.is_valid():
+            username = serializer.validated_data['username']
             email = serializer.validated_data['email']
             phone = serializer.validated_data['phone']
             password = serializer.validated_data['password']
 
-            user = User(email=email, phone=phone, user_type='visitor')   # equivalent to user.save(commit=False)
+            # equivalent to user.save(commit=False)
+            user = User(username=username, email=email, phone=phone, phone_verified=True, user_type='visitor')
 
             try:
                 validate_password(password, user)
@@ -61,7 +62,7 @@ class VisitorRegistrationView(APIView):
                 profile_picture=profile_picture
             )
             json_data, status = get_user_json(
-                self=self, valid=True, username=phone, password=password, success_message='Successfully Signed Up'
+                self=self, valid=True, username=username, password=password, success_message='Successfully Signed Up'
             )
 
         else:

@@ -46,8 +46,11 @@ class User(AbstractBaseUser, PermissionsMixin):
         ('admin', 'Admin'),
         ('visitor', 'Visitor'),
     )
-    email = models.EmailField(max_length=255, unique=True)
-    phone = models.CharField(max_length=20, unique=True)
+    username = models.CharField(max_length=255, unique=True)
+    email = models.EmailField(max_length=255, blank=True, null=True)
+    email_verified = models.BooleanField(default=False, blank=True)
+    phone = models.CharField(max_length=20, blank=True, null=True)
+    phone_verified = models.BooleanField(default=False, blank=True)
     is_staff = models.BooleanField(default=False, blank=True)
     status = models.BooleanField(default=True, blank=True)
     created_at = models.DateTimeField(blank=True, auto_now_add=True)
@@ -57,11 +60,9 @@ class User(AbstractBaseUser, PermissionsMixin):
         choices=USER_TYPE_CHOICES,
         default='admin'
     )
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = 'username'
 
     objects = UserManager()
 
     def __str__(self):
-        if self.email:
-            return "%s" % self.email
-        return "%s" % self.phone
+        return "%s" % self.username

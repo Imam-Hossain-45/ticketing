@@ -6,7 +6,6 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework.status import HTTP_200_OK
 from accounts.helpers import get_user_json
-from django.middleware.csrf import get_token
 
 
 class UserLogInView(APIView):

@@ -1,37 +1,17 @@
 from rest_framework.status import HTTP_200_OK, HTTP_404_NOT_FOUND, HTTP_400_BAD_REQUEST
-from user_management.models import User, VisitorProfile
+from user_management.models import VisitorProfile
 from django.core import serializers
 from django.contrib.auth import login, authenticate
 import json
 from django.conf import settings
 
 
-def my_authenticate(username=None, password=None):
-    if username:
-        try:
-            user = User.objects.get(email=username)
-            # ====== temp ===== #
-            if user:
-                return None
-            # ====== end temp ===== #
-            return authenticate(username=username, password=password)
-        except:
-            try:
-                user = User.objects.get(phone=username)
-                if user.check_password(password):
-                    return user
-                return None
-            except:
-                return None
-    return None
-
-
 def get_user_json(self=None, valid=None, username=None, password=None, error=None, success_message=None):
-    fields = ['email', 'phone', 'user_type', 'status']
+    fields = ['username', 'email', 'phone', 'user_type', 'status']
     profile_fields = [field.name for field in VisitorProfile._meta.fields]
 
     if valid:
-        user = my_authenticate(username=username, password=password)
+        user = authenticate(username=username, password=password)
         if user and user.is_active:
             status = HTTP_200_OK
             login(self.request, user)
