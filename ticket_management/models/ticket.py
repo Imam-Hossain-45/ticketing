@@ -10,3 +10,5 @@ class Ticket(Model):
     unique_id = models.TextField(max_length=20, unique=True)
     is_valid = models.BooleanField(default=True, blank=True)
     used = models.BooleanField(default=False, blank=True)
+    entry_datetime = models.DateTimeField(blank=True, null=True)
+    exit_datetime = models.DateTimeField(blank=True, null=True)

@@ -14,4 +14,5 @@ class BusinessProfile(Model):
     )
     contact_person = models.CharField(max_length=40)
     contact_mobile = models.CharField(max_length=11)
+    logo = models.ImageField(upload_to='user_business/logo/', null=True, blank=True)
 

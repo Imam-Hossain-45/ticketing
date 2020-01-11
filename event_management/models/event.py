@@ -5,6 +5,7 @@ from django.db import models
 class Event(Model):
     title = models.CharField(max_length=60)
     description = models.TextField(max_length=255, blank=True, null=True)
+    banner = models.ImageField(upload_to='event/banner/', null=True, blank=True)
     start_date = models.DateField()
     end_date = models.DateField()
     start_time = models.TimeField()
