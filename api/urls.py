@@ -7,4 +7,5 @@ urlpatterns = [
     path('user/', include('user_management.urls', namespace='user_management')),
     path('event/', include('event_management.urls', namespace='event_management')),
     path('ticket/', include('ticket_management.urls', namespace='ticket_management')),
+    path('settings/', include('settings.urls', namespace='settings')),
 ]
