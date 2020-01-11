@@ -1,0 +1,36 @@
+[
+  {"name":"preferences","data":
+    [
+      {
+        "id":"1","caption":"Art"
+      },
+      {
+        "id":"2","caption":"Dance"
+      },
+      {
+        "id":"3","caption":"Drama"
+      },
+      {
+        "id":"4","caption":"Fashion"
+      },
+      {
+        "id":"5","caption":"Food"
+      },
+      {
+        "id":"6","caption":"Health"
+      },
+      {
+        "id":"7","caption":"Music"
+      },
+      {
+        "id":"8","caption":"Sports"
+      },
+      {
+        "id":"9","caption":"Tech"
+      },
+      {
+        "id":"10","caption":"Theater"
+      }
+    ]
+  }
+]

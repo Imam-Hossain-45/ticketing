@@ -1,2 +1,3 @@
 from .base_user import *
-from .user_profile import *
+from .profile_visitor import *
+from .profile_business import *

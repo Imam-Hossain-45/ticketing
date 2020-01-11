@@ -2,10 +2,11 @@ from rest_framework.views import APIView
 from user_management.serializers import VisitorRegistrationSerializer
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
-from user_management.models import User, VisitorProfile
+from user_management.models import User, VisitorProfile, UserAuthority
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from accounts.helpers import get_user_json
+from rest_framework.status import HTTP_400_BAD_REQUEST
 
 
 class VisitorRegistrationView(APIView):
@@ -39,8 +40,14 @@ class VisitorRegistrationView(APIView):
             phone = serializer.validated_data['phone']
             password = serializer.validated_data['password']
 
+            try:
+                user_type = UserAuthority.objects.get(user_type='visitor')
+            except:
+                return Response({'valid_credential': 'invalid', 'response': 'user type does not exist'},
+                                status=HTTP_400_BAD_REQUEST)
+
             # equivalent to user.save(commit=False)
-            user = User(username=username, email=email, phone=phone, phone_verified=True, user_type='visitor')
+            user = User(username=username, email=email, phone=phone, phone_verified=True, user_type=user_type)
 
             try:
                 validate_password(password, user)

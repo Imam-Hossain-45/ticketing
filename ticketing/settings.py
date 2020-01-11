@@ -54,6 +54,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'user_management',
     'accounts',
+    'event_management',
+    'settings',
+    'ticket_management',
 ]
 
 MIDDLEWARE = [

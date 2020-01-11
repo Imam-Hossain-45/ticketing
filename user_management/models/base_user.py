@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import (
     AbstractBaseUser, BaseUserManager, PermissionsMixin
 )
+from helpers.models import Model
 
 
 class UserManager(BaseUserManager):
@@ -45,10 +46,6 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    USER_TYPE_CHOICES = (
-        ('admin', 'Admin'),
-        ('visitor', 'Visitor'),
-    )
     username = models.CharField(max_length=255, unique=True)
     email = models.EmailField(max_length=255, blank=True, null=True)
     email_verified = models.BooleanField(default=False, blank=True)
@@ -58,14 +55,28 @@ class User(AbstractBaseUser, PermissionsMixin):
     status = models.BooleanField(default=True, blank=True)
     created_at = models.DateTimeField(blank=True, auto_now_add=True)
     updated_at = models.DateTimeField(blank=True, auto_now=True)
-    user_type = models.CharField(
-        max_length=255,
-        choices=USER_TYPE_CHOICES,
-        default='admin'
-    )
+    user_type = models.ForeignKey('user_management.UserAuthority', on_delete=models.SET_NULL, null=True)
     USERNAME_FIELD = 'username'
 
     objects = UserManager()
 
     def __str__(self):
         return "%s" % self.username
+
+
+class UserAuthority(Model):
+    USER_TYPE_CHOICES = (
+        ('super-admin', 'Super Admin'),
+        ('admin', 'Admin'),
+        ('visitor', 'Visitor'),
+        ('business', 'Business'),
+    )
+    user_type = models.CharField(
+        max_length=255,
+        choices=USER_TYPE_CHOICES,
+        default='visitor'
+    )
+    remarks = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return "%s" % self.user_type

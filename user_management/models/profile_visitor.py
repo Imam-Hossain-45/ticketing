@@ -1,11 +1,6 @@
 from django.db import models
 from helpers.models import Model
-
-GENDER_CHOICES = (
-    ('male', 'Male'),
-    ('female', 'Female'),
-    ('other', 'Other'),
-)
+from settings.models import GENDER_CHOICES
 
 
 class VisitorProfile(Model):
@@ -13,9 +8,15 @@ class VisitorProfile(Model):
     first_name = models.CharField(max_length=255, blank=True, null=True)
     last_name = models.CharField(max_length=255, blank=True, null=True)
     gender = models.CharField(
-        max_length=255,
+        max_length=20,
         choices=GENDER_CHOICES,
         default='male'
     )
     date_of_birth = models.DateField(blank=True, null=True)
     profile_picture = models.ImageField(upload_to='user_visitors/profile_pic/', blank=True, null=True)
+
+
+class UserPreference(Model):
+    user = models.ForeignKey('user_management.User', on_delete=models.CASCADE, blank=True, null=True)
+    preference = models.ForeignKey('settings.Preference', on_delete=models.CASCADE, blank=True, null=True)
+
