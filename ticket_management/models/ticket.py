@@ -12,3 +12,6 @@ class Ticket(Model):
     used = models.BooleanField(default=False, blank=True)
     entry_datetime = models.DateTimeField(blank=True, null=True)
     exit_datetime = models.DateTimeField(blank=True, null=True)
+
+    def __str__(self):
+        return "{} - {} - {}".format(self.user, self.event, self.unique_id)

@@ -30,3 +30,6 @@ class Event(Model):
 class EventPreference(Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     preference = models.ForeignKey('settings.Preference', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return "{} - {}".format(self.event, self.preference)

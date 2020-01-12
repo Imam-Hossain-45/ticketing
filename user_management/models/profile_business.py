@@ -4,6 +4,7 @@ from settings.models import SERVICE_CHOICES
 
 
 class BusinessProfile(Model):
+    user = models.OneToOneField('user_management.User', on_delete=models.CASCADE)
     email = models.EmailField()
     name = models.CharField(max_length=60)
     address = models.ForeignKey('settings.Address', on_delete=models.SET_NULL, null=True)
@@ -15,4 +16,7 @@ class BusinessProfile(Model):
     contact_person = models.CharField(max_length=40)
     contact_mobile = models.CharField(max_length=11)
     logo = models.ImageField(upload_to='user_business/logo/', null=True, blank=True)
+
+    def __str__(self):
+        return "%s" % self.user
 

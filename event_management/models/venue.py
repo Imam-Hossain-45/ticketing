@@ -8,3 +8,6 @@ class Venue(Model):
     capacity = models.IntegerField()
     contact_person = models.CharField(max_length=40)
     contact_mobile = models.CharField(max_length=11)
+
+    def __str__(self):
+        return "{}".format(self.address)
