@@ -14,7 +14,7 @@ class Event(Model):
     seat_range = models.IntegerField(default=-1, blank=True)
     paid = models.BooleanField(default=False, blank=True)
     cost = models.DecimalField(max_digits=4, decimal_places=2, default=0.0)
-    preference = models.ManyToManyField('settings.Preference', through='event_management.EventPreference')
+    preferences = models.ManyToManyField('settings.Preference', through='event_management.EventPreference')
     venue = models.ForeignKey('event_management.Venue', on_delete=models.SET_NULL, null=True)
     organizer = models.CharField(max_length=60)
     instruction = models.TextField(max_length=255, blank=True, null=True)

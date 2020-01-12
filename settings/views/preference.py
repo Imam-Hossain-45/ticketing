@@ -20,8 +20,8 @@ class GetAllPreferencesView(APIView):
         for preference in preferences:
             data_list.append({'id': preference.id, 'caption': preference.caption})
 
-        json_data = {'preferences': data_list}
+        # json_data = {'preferences': data_list}
         # json_data.update({'size': preferences.count()})
 
-        return Response(json_data, status=HTTP_200_OK)
+        return Response(data_list, status=HTTP_200_OK)
 
