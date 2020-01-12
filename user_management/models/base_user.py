@@ -46,8 +46,8 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    username = models.CharField(max_length=255, unique=True)
-    email = models.EmailField(max_length=255, blank=True, null=True)
+    username = models.CharField(max_length=40, unique=True)
+    email = models.EmailField(blank=True, null=True)
     email_verified = models.BooleanField(default=False, blank=True)
     phone = models.CharField(max_length=20, blank=True, null=True)
     phone_verified = models.BooleanField(default=False, blank=True)
@@ -56,6 +56,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     created_at = models.DateTimeField(blank=True, auto_now_add=True)
     updated_at = models.DateTimeField(blank=True, auto_now=True)
     user_type = models.ForeignKey('user_management.UserAuthority', on_delete=models.SET_NULL, null=True)
+
     USERNAME_FIELD = 'username'
 
     objects = UserManager()
