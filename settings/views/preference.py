@@ -5,7 +5,7 @@ from settings.models import Preference
 from rest_framework.status import HTTP_200_OK
 
 
-class GetAllPreferencesView(APIView):
+class PreferencesListAllView(APIView):
     """
     get all the preferences
 

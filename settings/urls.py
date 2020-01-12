@@ -4,5 +4,5 @@ from . import views
 app_name = 'settings'
 
 urlpatterns = [
-    path('get-preferences/', views.GetAllPreferencesView.as_view(), name='get_all_preferences'),
+    path('get-preferences/', views.PreferencesListAllView.as_view(), name='get_all_preferences'),
 ]

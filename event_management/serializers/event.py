@@ -4,9 +4,11 @@ from settings.models import Preference
 
 
 class EventCreateSerializer(serializers.ModelSerializer):
-    preferences = serializers.MultipleChoiceField(
-        choices=[(pref.id, pref.caption) for pref in Preference.objects.all()]
-    )
+    try:
+        choices = [(pref.id, pref.caption) for pref in Preference.objects.all()]
+    except:
+        choices = []
+    preferences = serializers.MultipleChoiceField(choices=choices)
 
     class Meta:
         model = Event
