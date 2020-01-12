@@ -10,8 +10,8 @@ class AddressCreateSerializer(serializers.ModelSerializer):
 
 
 class VenueCreateSerializer(serializers.ModelSerializer):
-    address = AddressCreateSerializer()
+    address_serializer = AddressCreateSerializer()
 
     class Meta:
         model = Venue
-        fields = ('address', 'amenities', 'capacity', 'contact_person', 'contact_mobile')
+        fields = ('amenities', 'capacity', 'contact_person', 'contact_mobile', 'address_serializer')
