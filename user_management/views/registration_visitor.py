@@ -43,8 +43,13 @@ class VisitorRegistrationView(APIView):
             try:
                 user_type = UserAuthority.objects.get(user_type='visitor')
             except:
-                return Response({'valid_credential': 'invalid', 'response': 'user type does not exist'},
-                                status=HTTP_400_BAD_REQUEST)
+                return Response({'valid_credential': 'invalid',
+                                 'response': {
+                                     "user_type": [
+                                         "user type does not exist."
+                                     ]
+                                 }
+                                 }, status=HTTP_400_BAD_REQUEST)
 
             # equivalent to user.save(commit=False)
             user = User(username=username, email=email, phone=phone, phone_verified=True, user_type=user_type)
