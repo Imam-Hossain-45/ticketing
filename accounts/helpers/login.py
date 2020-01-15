@@ -1,5 +1,5 @@
 from rest_framework.status import HTTP_200_OK, HTTP_404_NOT_FOUND, HTTP_400_BAD_REQUEST
-from user_management.models import VisitorProfile
+from user_management.models import VisitorProfile, UserAuthority
 from django.core import serializers
 from django.contrib.auth import login, authenticate
 import json
@@ -19,6 +19,12 @@ def get_user_json(self=None, valid=None, username=None, password=None, error=Non
             json_data = {'valid_credential': 'valid'}
             json_data.update({'response': success_message})
             json_data.update(my_json_formatter(fields=fields, data_obj=user))
+
+            try:
+                authority_type = UserAuthority.objects.get(id=json_data['user_type'])
+                json_data['user_type'] = authority_type.user_type
+            except:
+                pass
 
             if VisitorProfile.objects.filter(user=user).exists():
                 json_data.update({'user_profile_data_exist': True})
