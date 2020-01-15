@@ -17,6 +17,7 @@ class Event(Model):
     preferences = models.ManyToManyField('settings.Preference', through='event_management.EventPreference',
                                          blank=True, null=True)
     venue = models.ForeignKey('event_management.Venue', on_delete=models.SET_NULL, null=True)
+    # hall = models.ForeignKey('event_management.Hall', on_delete=models.SET_NULL, null=True)
     organizer = models.CharField(max_length=60)
     instruction = models.TextField(max_length=255, blank=True, null=True)
     created_by = models.ForeignKey('user_management.User', related_name='created_by',

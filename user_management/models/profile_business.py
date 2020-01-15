@@ -5,7 +5,6 @@ from settings.models import SERVICE_CHOICES
 
 class BusinessProfile(Model):
     user = models.OneToOneField('user_management.User', on_delete=models.CASCADE)
-    email = models.EmailField()
     name = models.CharField(max_length=60)
     address = models.ForeignKey('settings.Address', on_delete=models.SET_NULL, null=True)
     service = models.CharField(
