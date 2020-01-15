@@ -138,7 +138,7 @@ class EventListAllView(APIView):
                     'seat_range': event.seat_range,
                     'paid': event.paid,
                     'cost': event.cost,
-                    'venue': str(event.venue),
+                    'venue': str(event.venue) if event.venue else None,
                     'preferences': preference_list,
                     'organizer': event.organizer,
                     'instruction': event.instruction,
