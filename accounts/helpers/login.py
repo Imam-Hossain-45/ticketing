@@ -20,6 +20,11 @@ def get_user_json(self=None, valid=None, username=None, password=None, error=Non
             json_data.update({'response': success_message})
             json_data.update(my_json_formatter(fields=fields, data_obj=user))
 
+            if json_data['email_verified'] is None:
+                json_data['email_verified'] = False
+            if json_data['phone_verified'] is None:
+                json_data['phone_verified'] = False
+
             try:
                 authority_type = UserAuthority.objects.get(id=json_data['user_type'])
                 json_data['user_type'] = authority_type.user_type
