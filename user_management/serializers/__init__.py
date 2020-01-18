@@ -1,1 +1,1 @@
-from .registration_visitor import VisitorRegistrationSerializer, VisitorRegistrationUsernameCheckSerializer
+from .visitor import *

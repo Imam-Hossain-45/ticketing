@@ -11,6 +11,8 @@ common_urls = [
 visitor_urls = [
     path('visitor/create/', views.VisitorRegistrationView.as_view(), name='visitor_create'),
     path('visitor/profile/', views.VisitorRegistrationView.as_view(), name='visitor_profile'),
+    path('visitor/<user_id>/profile/change-profile-picture/', views.ChangeProfilePictureView.as_view(),
+         name='visitor_profile_picture_change'),
     path('visitor/preferences/', views.VisitorRegistrationView.as_view(), name='visitor_preferences'),
 ]
 

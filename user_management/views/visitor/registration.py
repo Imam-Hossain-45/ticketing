@@ -13,7 +13,7 @@ class VisitorRegistrationView(APIView):
     """
     Register a visitor and login the user
 
-    Url: /user/visitor/create/
+    Url: /api/user/visitor/create/
     """
 
     authentication_classes = []
