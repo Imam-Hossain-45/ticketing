@@ -48,8 +48,13 @@ class ChangeProfilePictureView(APIView):
                 return Response(invalid_json_data, invalid_status)
 
             user_id = data['user_id']
-            if not type(user_id) == int or user_id < 1:
+            if not type(user_id) == str or not user_id.isdigit():
                 invalid_json_data.update({message_key: 'invalid user-id type'})
+                return Response(invalid_json_data, invalid_status)
+
+            user_id = int(user_id)
+            if user_id < 1:
+                invalid_json_data.update({message_key: 'invalid user-id provided'})
                 return Response(invalid_json_data, invalid_status)
 
             profile_picture = serializer.validated_data['profile_picture']
