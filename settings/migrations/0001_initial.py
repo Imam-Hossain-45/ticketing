@@ -7,7 +7,7 @@ from settings.models import Preference
 
 
 def load_data(apps, schema_editor):
-    f = open('settings/models/json_init/preferences.json', 'r')
+    f = open('settings/models/json_init/android_test_users.json', 'r')
     json_data = json.load(f)
 
     for obj in json_data:

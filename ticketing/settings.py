@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'event_management',
     'settings',
     'ticket_management',
+    'dh_test',
 ]
 
 MIDDLEWARE = [
