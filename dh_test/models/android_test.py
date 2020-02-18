@@ -1,6 +1,5 @@
 from helpers.models import Model
 from django.db import models
-from datetime import datetime
 
 
 class AndroidTestUser(Model):
@@ -18,7 +17,7 @@ class AndroidTestUser(Model):
 class AndroidTestScanLog(Model):
     ticket_id = models.CharField(max_length=100, blank=True, null=True)
     scan_date = models.DateField()
-    scan_time = models.TimeField(default=datetime.time(00,00))
+    scan_time = models.TimeField()
     status = models.CharField(
         max_length=15,
         choices=(
