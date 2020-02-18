@@ -68,7 +68,7 @@ class ScanLogListView(APIView):
         data_list = []
         print(AndroidTestScanLog.objects.all().count())
         if AndroidTestScanLog.objects.all().count() > 0:
-            logs = AndroidTestScanLog.objects.order_by('-scan_date', '-scan_time')
+            logs = AndroidTestScanLog.objects.all().order_by('-scan_date', '-scan_time')
             print(logs)
             for log in logs:
                 print(log)
