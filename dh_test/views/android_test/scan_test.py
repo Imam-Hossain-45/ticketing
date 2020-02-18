@@ -65,19 +65,17 @@ class ScanLogListView(APIView):
     permission_classes = [AllowAny]
 
     def get(self, request, format=None, **kwargs):
+        logs = AndroidTestScanLog.objects.order_by('-scan_date', '-scan_time')
         data_list = []
-
-        logs = AndroidTestScanLog.objects.all()
         for log in logs:
-            pass
-            # data_list.append(
-            #     {
-            #         'ticket_id': log.ticket_id,
-            #         'scan_date': log.scan_date,
-            #         'scan_time': log.scan_time,
-            #         'status': log.status,
-            #     }
-            # )
+            data_list.append(
+                {
+                    'ticket_id': log.ticket_id,
+                    'scan_date': str(log.scan_date),
+                    'scan_time': str(log.scan_time),
+                    'status': log.status,
+                }
+            )
 
         return Response(data_list, status=HTTP_200_OK)
 
