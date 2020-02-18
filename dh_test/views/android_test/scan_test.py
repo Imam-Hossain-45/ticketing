@@ -68,9 +68,8 @@ class ScanLogListView(APIView):
         data_list = []
 
         logs = AndroidTestScanLog.objects.all()
-        print(logs)
         for log in logs:
-            print(log)
+            pass
             # data_list.append(
             #     {
             #         'ticket_id': log.ticket_id,
