@@ -66,17 +66,20 @@ class ScanLogListView(APIView):
 
     def get(self, request, format=None, **kwargs):
         data_list = []
+        print(AndroidTestScanLog.objects.all().count())
         if AndroidTestScanLog.objects.all().count() > 0:
             logs = AndroidTestScanLog.objects.order_by('-scan_date', '-scan_time')
+            print(logs)
             for log in logs:
-                data_list.append(
-                    {
-                        'ticket_id': log.ticket_id,
-                        'scan_date': log.scan_date,
-                        'scan_time': log.scan_time,
-                        'status': log.status,
-                    }
-                )
+                print(log)
+                # data_list.append(
+                #     {
+                #         'ticket_id': log.ticket_id,
+                #         'scan_date': log.scan_date,
+                #         'scan_time': log.scan_time,
+                #         'status': log.status,
+                #     }
+                # )
 
         return Response(data_list, status=HTTP_200_OK)
 
