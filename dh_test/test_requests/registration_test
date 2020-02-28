@@ -1,0 +1,45 @@
+{
+    "name": "xxxxx", [type: String]
+    "date_of_birth": "YYYY-MM-DD HH:MM:SS", [type: String]
+    "gender": "Male", [type: String, options are 'Male/Female/Other']
+    "mobile_number": "xxxxxxxx", [type: String]
+    "email": "xxxxx@xxx.com", [type: String]
+    "country": "1", [type: String, id of the selected country from 'get-countries' api. like- 1,2,3,..]
+    "profile_picture1": "", [type: Multi-Part img class]
+    "profile_picture2": "", [type: Multi-Part img class]
+    "fnfs": [
+        {
+            "name": "xxxxx", [type: String]
+            "date_of_birth": "YYYY-MM-DD", [type: String]
+            "gender": "Female", [type: String, options are 'Male/Female/Other']
+            "mobile_number": "xxxxxxxxxx" [type: String]
+        },
+        {
+            "name": "xxxxx", [type: String]
+            "date_of_birth": "YYYY-MM-DD", [type: String]
+            "gender": "Other", [type: String, options are 'Male/Female/Other']
+            "mobile_number": "xxxxxxxxxx" [type: String]
+        }
+    ],
+    "food_preferences": [
+        "Pizza", [type: String]
+        "xxxxxxx", [type: String]
+        "xxxxxxx", [type: String]
+        "xxxxxxx", [type: String]
+        "xxxxxxx" [type: String]
+    ],
+    "language_proficiencies": [
+        {
+            "language": "Bangla", [type: String]
+            "level": "Best" [type: String, options are 'Best/Moderate/Normal/Worst']
+        },
+        {
+            "language": "English", [type: String]
+            "level": "Normal" [type: String, options are 'Best/Moderate/Normal/Worst']
+        },
+        {
+            "language": "xxxxxxxx", [type: String]
+            "level": "Worst" [type: String, options are 'Best/Moderate/Normal/Worst']
+        }
+    ]
+}
